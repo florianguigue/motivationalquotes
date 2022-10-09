@@ -1,0 +1,12 @@
+{
+    "image": {
+        "path": "assets/images/bg.jpg",
+        "height": 800,
+        "width": 600,
+        "margin": 40
+    },
+    "fonts": {
+        "quote": "assets/fonts/font_text_48.fnt",
+        "author": "assets/fonts/font_author_32.fnt"
+    }
+}

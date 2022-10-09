@@ -1,7 +1,12 @@
 let fetch = require('node-fetch');
 let Jimp = require('jimp');
+let fs = require('fs');
+let configRaw = fs.readFileSync('config.json');
+let config = JSON.parse(configRaw);
 
 const API_BASE_HOST = 'https://zenquotes.io/api/';
+
+console.log(config);
 
 async function getTodayQuote() {
     const response = await fetch(API_BASE_HOST + 'today');
@@ -11,19 +16,19 @@ async function getTodayQuote() {
 }
 
 async function loadFont(fontName) {
-    const font = await Jimp.loadFont(`assets/fonts/${fontName}.fnt`);
+    const font = await Jimp.loadFont(`${fontName}`);
     console.log('Font loaded !');
     return font;
 }
 
 async function readImage() {
-    const image = await Jimp.read('assets/images/black-concrete-wall.jpg');
+    const image = await Jimp.read(config.image.path);
     console.log('Image loaded !');
     return image;
 }
 
 async function resizeImage(image) {
-    const resizedImage = await image.resize(800, 600);
+    const resizedImage = await image.resize(config.image.height, config.image.width);
     console.log('Image resized !');
     return resizedImage;
 }
@@ -36,11 +41,11 @@ async function blurImage(image) {
 }
 
 async function printText(fontQuote, fontAuthor, bluredImage, quote) {
-    const imageWithQuote = bluredImage.print(fontQuote, 40, 0, {
+    const imageWithQuote = bluredImage.print(fontQuote, config.image.margin, 0, {
         text: quote.q,
         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
-    }, 720, 600);
+    }, config.image.height - (2 * config.image.margin), config.image.width);
     imageWithQuote.write(`output/imageWithQuote.${imageWithQuote.getExtension()}`);
     console.log('Image with quote created !');
 
@@ -48,14 +53,14 @@ async function printText(fontQuote, fontAuthor, bluredImage, quote) {
         text: quote.a,
         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
         alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM,
-    }, 800, 600);
+    }, config.image.height, config.image.width);
     imageWithQuoteAndAuthor.write(`output/finalImage.${imageWithQuoteAndAuthor.getExtension()}`);
     console.log('Final image created !');
 }
 
 async function createMotivationalImage() {
-    const fontQuote = await loadFont('font_text_48');
-    const fontAuthor = await loadFont('font_author_32');
+    const fontQuote = await loadFont(config.fonts.quote);
+    const fontAuthor = await loadFont(config.fonts.author);
     const image = await readImage();
     const resizedImage = await resizeImage(image);
     const bluredImage = await blurImage(resizedImage);
