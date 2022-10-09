@@ -36,4 +36,4 @@ The intermediar and final images are written in the output folder.
 
 ## Exemple of generated image
 
-![Final image](ouput/finalImage.jpeg)
+![Final image](output/finalImage.jpeg)
