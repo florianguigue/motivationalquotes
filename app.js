@@ -17,9 +17,15 @@ async function loadFont(fontName) {
 }
 
 async function readImage() {
-    const image = await Jimp.read('assets/images/bg_low.jpg');
+    const image = await Jimp.read('assets/images/black-concrete-wall.jpg');
     console.log('Image loaded !');
     return image;
+}
+
+async function resizeImage(image) {
+    const resizedImage = await image.resize(800, 600);
+    console.log('Image resized !');
+    return resizedImage;
 }
 
 async function blurImage(image) {
@@ -34,7 +40,7 @@ async function printText(fontQuote, fontAuthor, bluredImage, quote) {
         text: quote.q,
         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
-    }, 640, 436);
+    }, 800, 600);
     imageWithQuote.write(`output/imageWithQuote.${imageWithQuote.getExtension()}`);
     console.log('Image with quote created !');
 
@@ -42,7 +48,7 @@ async function printText(fontQuote, fontAuthor, bluredImage, quote) {
         text: quote.a,
         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
         alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM,
-    }, 640, 436);
+    }, 800, 600);
     imageWithQuoteAndAuthor.write(`output/finalImage.${imageWithQuoteAndAuthor.getExtension()}`);
     console.log('Final image created !');
 }
@@ -51,7 +57,8 @@ async function createMotivationalImage() {
     const fontQuote = await loadFont('font_text_48');
     const fontAuthor = await loadFont('font_author_32');
     const image = await readImage();
-    const bluredImage = await blurImage(image);
+    const resizedImage = await resizeImage(image);
+    const bluredImage = await blurImage(resizedImage);
     const quote = await getTodayQuote();
     await printText(fontQuote, fontAuthor, bluredImage, quote)
 }
