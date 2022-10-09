@@ -36,11 +36,11 @@ async function blurImage(image) {
 }
 
 async function printText(fontQuote, fontAuthor, bluredImage, quote) {
-    const imageWithQuote = bluredImage.print(fontQuote, 0, 0, {
+    const imageWithQuote = bluredImage.print(fontQuote, 40, 0, {
         text: quote.q,
         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
-    }, 800, 600);
+    }, 720, 600);
     imageWithQuote.write(`output/imageWithQuote.${imageWithQuote.getExtension()}`);
     console.log('Image with quote created !');
 
