@@ -2,9 +2,9 @@
 
 ## Languages, tools and API
 
-[Node JS](https://nodejs.org/en/)
-[Jimp](https://github.com/oliver-moran/jimp)
-[Zenquotes API](https://zenquotes.io/)
+* [Node JS](https://nodejs.org/en/)
+* [Jimp](https://github.com/oliver-moran/jimp)
+* [Zenquotes API](https://zenquotes.io/)
 
 ## Description
 
